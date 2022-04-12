@@ -46,9 +46,9 @@ def importPARREC(inputName, dataPath):
     numberOfPhases = int(dataShape[3]/2)
 
     controlPhase = data[:,:,:,:numberOfPhases]
-    inflowPhase = data[:,:,:,numberOfPhases:]
+    labelPhase = data[:,:,:,numberOfPhases:]
 
-    return controlPhase, inflowPhase, baseImage
+    return controlPhase, labelPhase, baseImage
 
 
 def parallelDenoising(imageArray):
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     inputName = '/...' 
     dataPath = '/...'
 
-    controlPhase, inflowPhase, baseImage = importPARREC(inputName, dataPath)
+    controlPhase, labelPhase, baseImage = importPARREC(inputName, dataPath)
     
     print("Starting denoising control images...")
     
@@ -146,9 +146,9 @@ if __name__ == '__main__':
 
     print("Starting denoising inflow images...")
 
-    denoisedInflowPhase = parallelDenoising(inflowPhase)
+    denoisedLabelPhase = parallelDenoising(labelPhase)
 
-    subtraction = denoisedControlPhase - denoisedInflowPhase
+    subtraction = denoisedControlPhase - denoisedLabelPhase
 
     meanSubtraction = np.mean(subtraction, axis=3)
 
